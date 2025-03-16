@@ -22,16 +22,16 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   //#endregion
-  const isValidUrl = (val: string) => {
+  const isNotValidUrl = (val: string) => {
     return val.match(pattern) === null;
   };
 
-  const isDisabledAddButton =
+  const isDisabledSubmit =
     title === '' ||
     imgUrl === '' ||
-    isValidUrl(imgUrl) ||
+    isNotValidUrl(imgUrl) ||
     imdbUrl === '' ||
-    isValidUrl(imdbUrl) ||
+    isNotValidUrl(imdbUrl) ||
     imdbId === '';
 
   //#region handlers
@@ -84,7 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
-        urlRequirements={isValidUrl}
+        isNotValidUrl={isNotValidUrl}
         required
       />
 
@@ -93,7 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
-        urlRequirements={isValidUrl}
+        isNotValidUrl={isNotValidUrl}
         required
       />
 
@@ -111,7 +111,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
-            disabled={isDisabledAddButton}
+            disabled={isDisabledSubmit}
           >
             Add
           </button>
