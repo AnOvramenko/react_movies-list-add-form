@@ -6,6 +6,10 @@ type Props = {
   onAdd: (movie: Movie) => void;
 };
 
+const pattern =
+  // eslint-disable-next-line max-len
+  /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
 export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
@@ -13,18 +17,27 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   //#region states
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
-  const [description, setDiscription] = useState('');
+  const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
   //#endregion
+  const isValidUrl = (val: string) => {
+    return val.match(pattern) === null;
+  };
+
   const isDisabledAddButton =
-    title === '' || imgUrl === '' || imdbUrl === '' || imdbId === '';
+    title === '' ||
+    imgUrl === '' ||
+    isValidUrl(imgUrl) ||
+    imdbUrl === '' ||
+    isValidUrl(imdbUrl) ||
+    imdbId === '';
 
   //#region handlers
   const clearAllFields = () => {
     setTitle('');
-    setDiscription('');
+    setDescription('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
@@ -63,7 +76,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         name="description"
         label="Description"
         value={description}
-        onChange={setDiscription}
+        onChange={setDescription}
       />
 
       <TextField
@@ -71,6 +84,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        urlRequirements={isValidUrl}
         required
       />
 
@@ -79,6 +93,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        urlRequirements={isValidUrl}
         required
       />
 
