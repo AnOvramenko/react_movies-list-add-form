@@ -27,12 +27,10 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   };
 
   const isDisabledSubmit =
-    title === '' ||
-    imgUrl === '' ||
+    title.trim() === '' ||
     isNotValidUrl(imgUrl) ||
-    imdbUrl === '' ||
     isNotValidUrl(imdbUrl) ||
-    imdbId === '';
+    imdbId.trim() === '';
 
   //#region handlers
   const clearAllFields = () => {

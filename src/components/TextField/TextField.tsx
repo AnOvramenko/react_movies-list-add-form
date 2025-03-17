@@ -30,7 +30,7 @@ export const TextField: React.FC<Props> = ({
   const [touched, setTouched] = useState(false);
 
   const checkUrl = isNotValidUrl(value) && touched && value !== '';
-  const hasError = touched && required && !value;
+  const hasError = touched && required && !value.trim();
 
   return (
     <div className="field">
